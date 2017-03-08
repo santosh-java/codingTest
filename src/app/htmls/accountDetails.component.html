@@ -1,0 +1,31 @@
+  <div *ngIf="initialLoadComplete">
+    <p>Current Balance:</p>
+    <h1> {{ accountDetails.balance.balance | currency: accountDetails.balance.currency : true }} </h1>
+    <hr/>
+
+    <tabset>
+      <tab 
+          [heading]="tabs[0].title"
+          [active]="tabs[0].active"
+          (select)="tabs[0].active = true"
+          (deselect)="tabs[0].active = false"
+          [disabled]="tabs[0].disabled"
+          [removable]="tabs[0].removable"
+          (removed)="removeTabHandler(tabs[0])"
+          [customClass]="tabs[0].customClass"> 
+        <transactions></transactions>
+      </tab>
+
+      <tab 
+          [heading]="tabs[1].title"
+          [active]="tabs[1].active"
+          (select)="tabs[1].active = true"
+          (deselect)="tabs[1].active = false"
+          [disabled]="tabs[1].disabled"
+          [removable]="tabs[1].removable"
+          (removed)="removeTabHandler(tabs[1])"
+          [customClass]="tabs[1].customClass">
+        <spend-form></spend-form>
+      </tab>
+    </tabset>
+  </div>
