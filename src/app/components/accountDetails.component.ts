@@ -52,7 +52,9 @@ export class AccountDetailsComponent implements OnInit, OnDestroy{
                 this.authDetails = authDetails;
                 console.log('authtoken :'+this.authDetails.getToken());
             },
-            (error: any) => { console.log('Error in init of account details component during Login'); },
+            (error: any) => { 
+                console.log('Error in init of account details component during Login: '+error); 
+            },
             () => {
                 console.log('Successfully completed login: CompletionObserver');
                 this.accountDetails = AccountDetailsFactory.createAccountDetails(this.authDetails, this.balance, this.transactions);

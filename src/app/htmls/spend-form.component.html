@@ -18,6 +18,10 @@
              class="alert alert-danger">
           Amount is required
     </div>
+    <div [hidden]="amount.value < balance"
+             class="alert alert-danger">
+          Amount cannot be greater than balance "{{balance}}"
+    </div>
     <div class="form-group">
       <label for="date">Date</label>
       <input type="date" class="form-control" id="date" required
@@ -27,6 +31,9 @@
              class="alert alert-danger">
           Date is required
     </div>       
-    <button type="button" (click)="doSpend(); spendForm.reset();" class="btn btn-success" [disabled]="!spendForm.form.valid">Submit</button>
+    <button type="button" (click)="doSpend();" class="btn btn-success" [disabled]="amount.value > balance || !spendForm.form.valid">Submit</button>
   </form>
+  <div *ngFor="let alert of alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{alert.message}}</alert>
+  </div> 
 </div>

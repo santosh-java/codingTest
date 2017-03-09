@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { AlertModule } from 'ng2-bootstrap' 
 import { Subscription }   from 'rxjs/Subscription';
 
 import { AccountDetails, Transaction, TransactionFactory, Balance, BalanceFactory } from '../model';
@@ -13,6 +14,9 @@ import { AccountDetailsService } from '../services';
 export class SpendComponent implements OnDestroy{
     transaction: Transaction = TransactionFactory.createTransaction({"id":"", "date":"", "description":"", "amount":"", "currency":""});
     submitted: boolean = false;
+    alerts: any = [];
+    balance: Number;
+    @ViewChild('spendForm') spendForm;
 
     private authToken: string;
     private currency: string;
@@ -27,6 +31,7 @@ export class SpendComponent implements OnDestroy{
         this.authToken = this.accountDetails.accountToken;
         this.currency = this.accountDetails.balance.currency;
         this.transaction.setCurrency(this.currency);
+        this.balance = this.accountDetails.balance.balance;
     }
 
     doSpend(){
@@ -35,9 +40,22 @@ export class SpendComponent implements OnDestroy{
             .spend(this.authToken, this.transaction)
             .subscribe(
                 () => { this.submitted=true; },
-                (error: any) => { console.log('Error in init of account details component while fetching balance'); },
+                (error: any) => { 
+                    console.log('Error occurred during spending. Details: ' + error); 
+                    this.alerts.push({
+                        type:'danger',
+                        message: 'Failed to spend ' + this.transaction.getAmount() + ' on ' + this.transaction.getDescription() + ' due to ' + error,
+                        timeout: 3000
+                    });
+                },
                 () => {
-                    console.log('Successfully submitted spending.');
+                    console.log('Successfully submitted spending.');                    
+                    this.alerts.push({
+                        type:'success',
+                        message: 'Successfully spent ' + this.transaction.getAmount() + ' on ' + this.transaction.getDescription(),
+                        timeout: 3000
+                    });
+                    this.spendForm.reset();
                     this.accountDetailsService.updateBalanceAndTransactions(this.authToken);
                 }
             );

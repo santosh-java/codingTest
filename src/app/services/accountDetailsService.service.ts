@@ -37,7 +37,6 @@ export class AccountDetailsService implements OnDestroy{
     }
 
     public spend(accountToken: string, transaction: Transaction) : Observable<Response> {
-        // return this.http.post(this.corsIssueFix+this.baseUrl+'/spend', this.getRequestOptionsArgs('spend', accountToken, transaction.toJSON()));
         return this.http
             .post(this.corsIssueFix+this.baseUrl+'/spend', transaction, this.getRequestOptionsArgs('spend', accountToken, transaction.toJSON()));
     }
