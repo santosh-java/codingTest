@@ -1,16 +1,26 @@
-<div class="w3-panel w3-card-8" *ngFor="let tranz of trans" style="width:50%;">
-    <header class="w3-container w3-blue">
-        <div class="div-container">
-            <div class="div-one">
-                <h5>Transaction Id : {{tranz.id}}</h5> <h5>{{tranz.amount | currency: tranz.currency : true}}</h5>
-            </div>
-            <div class="div-two">
-                <h5 style="position: right">{{tranz.date | date}}</h5>
-            </div>
-        </div>
-    </header>
-
-    <div class="w3-container w3-blue">        
-        <p>{{tranz.description}}</p>
-    </div>
+<div class="table-responsive">
+    <table class="table table-striped table-condensed">
+        <thead>
+            <th>#</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tranz of trans">
+                <td>
+                    {{tranz.id}}
+                </td>
+                <td>
+                    {{tranz.description}}
+                </td>
+                <td>
+                    {{tranz.amount | currency: tranz.currency : true}}
+                </td>
+                <td>
+                    {{tranz.date | date}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
