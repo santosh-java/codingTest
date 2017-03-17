@@ -57,6 +57,12 @@ export class SpendComponent implements OnDestroy{
                     });
                     this.spendForm.reset();
                     this.accountDetailsService.updateBalanceAndTransactions(this.authToken);
+                    this.accDetailsSubscription = this.accountDetailsService.getAccountDetails().subscribe(
+                        (accDetails: AccountDetails)=>{
+                            this.accountDetails = accDetails;
+                            this.balance = accDetails.balance.balance;
+                        }
+                    );
                 }
             );
     }
